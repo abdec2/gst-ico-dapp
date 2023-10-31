@@ -77,7 +77,9 @@ const HeaderComponent = ({setError, setErrMsg}) => {
             <div className="mt-4 sm:mt-0">
                 <w3m-button />
             </div>
-
+            <div className="mt-8">
+                <p className="text-[#E1C260]">Please make sure that you have selected {CONFIG.NETWORK} network</p>
+            </div>
         </div>
     );
 };

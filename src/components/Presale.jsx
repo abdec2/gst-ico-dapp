@@ -1,6 +1,9 @@
 import { ethers } from 'ethers';
 import { useContext, useRef, useState } from 'react';
-import { GlobalContext } from '../context/GlobalContext';
+
+import { useWeb3ModalAccount, useWeb3ModalSigner, useWeb3Modal  } from '@web3modal/ethers5/react'
+
+
 import CONFIG from '../abi/config.json';
 
 import CROWDSALE_ABI from '../abi/abi.json';
@@ -13,10 +16,14 @@ const MySwal = withReactContent(Swal)
 const crowdsaleAddress = CONFIG.ICO_CONTRACT_ADDRESS;
 
 function Presale() {
-    const { account, tokenBalance, bnbBalance, provider } = useContext(GlobalContext);
     const [loading, setLoading] = useState(false);
-    console.log(provider)
     const ethPrice = useRef(null);
+    const { open, close } = useWeb3Modal()
+
+    const { address, chainId, isConnected } = useWeb3ModalAccount()
+    const { signer } = useWeb3ModalSigner()
+
+
 
     const addToken = async () => {
         const tokenAddress = CONFIG.TOKEN_CONTRACT;
@@ -52,54 +59,28 @@ function Presale() {
     const approveUSDT = async (e) => {
         e.preventDefault();
         try {
-            if (!window.ethereum) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Please install MetaMask',
-                    confirmButtonColor: '#E1C260'
-                  })
-                return
-            }
-            if (!account) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Please install MetaMask',
-                    confirmButtonColor: '#E1C260'
-                  })
+            if (!isConnected) {
+                open()
                 return;
             }
         
             setLoading(true);
-            const signer = provider.getSigner();
             const usdtContract = new ethers.Contract(CONFIG.USDT_ADDRESS, tokenAbi, signer);
-            const price = ethers.utils.parseUnits(ethPrice.current.value, 6);
-            const transaction = await usdtContract.approve(CONFIG.ICO_CONTRACT_ADDRESS, price, { from: account });
+            const price = ethers.utils.parseEther(ethPrice.current.value);
+            const transaction = await usdtContract.approve(CONFIG.ICO_CONTRACT_ADDRESS, price, { from: address });
             await transaction.wait();
-            buyToken(price, signer);
+            buyToken(price);
         } catch (e) {
             setLoading(false);
         }
 
     }
 
-    const buyToken = async (price, signer) => {
+    const buyToken = async (price) => {
         try {
             const contract = new ethers.Contract(crowdsaleAddress, CROWDSALE_ABI, signer);
-            console.log(parseFloat(bnbBalance) < parseFloat(ethPrice.current.value))
-            if (parseFloat(bnbBalance) < parseFloat(ethPrice.current.value)) {
-                setLoading(false);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Insufficient Balance',
-                    confirmButtonColor: '#E1C260'
-                  })
-                return;
-            }
-
-            const transaction = await contract.buyTokens(account, price.toString());
+            
+            const transaction = await contract.buyTokens(address, price.toString());
             await transaction.wait();
             setLoading(false);
             Swal.fire({

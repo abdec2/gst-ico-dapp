@@ -4,6 +4,7 @@
     "TOKEN_SYMBOL": "GST", 
     "TOKEN_DECIMAL": 18, 
     "NETWORK_ID": 97, 
+    "NETWORK" : "BSC TESTNET",
     "BLOCKCHAIN_EXPLORER": "https://testnet.bscscan.com/",
     "USDT_ADDRESS": "0x9b1ad84f9c9E03660171419Ef8cF9dBbB04ea512"
 }
