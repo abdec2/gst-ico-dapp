@@ -121,12 +121,12 @@ function Presale() {
                 )} */}
                 <form onSubmit={approveUSDT}>
                     <div className="my-3">
-                        <label className="text-base font-bold text-[#E1C260]">Amount BUSD</label>
+                        <label className="text-base font-bold text-[#E1C260]">Amount USDC</label>
                         <input ref={ethPrice} type="text" className="w-full h-12 rounded-lg p-2 text-xl focus:outline-none mt-1 bg-white bg-opacity-30" required />
                     </div>
                     <div className="my-3">
                         <label className="text-base font-bold text-[#E1C260]">Rate</label>
-                        <input className="w-full h-12 rounded-lg p-2 text-xl focus:outline-none mt-1" type="text" value="BUSD 0.5 =  1 GST " disabled />
+                        <input className="w-full h-12 rounded-lg p-2 text-xl focus:outline-none mt-1" type="text" value="USDC 0.5 =  1 GST " disabled />
                     </div>
 
                     <div className="mt-10">

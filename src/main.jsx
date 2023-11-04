@@ -10,11 +10,11 @@ const projectId = '1242d9c1f7a1e32cc5fb0da6c6877f84'
 
 // 2. Set chains
 const mainnet = {
-  chainId: 97,
-  name: 'BSC Testnet',
+  chainId: 56,
+  name: 'BSC',
   currency: 'BNB',
-  explorerUrl: 'https://testnet.bscscan.com',
-  rpcUrl: 'https://bsc-testnet.publicnode.com	'
+  explorerUrl: 'https://bscscan.com',
+  rpcUrl: 'https://bsc-dataseed4.bnbchain.org'
 }
 
 // 3. Create modal
