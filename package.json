@@ -2,6 +2,7 @@
   "name": "gst-ico-dapp",
   "private": true,
   "version": "0.0.0",
+  "homepage": "https://globalstandardtoken.com/buy-gst/",
   "type": "module",
   "scripts": {
     "dev": "vite",
