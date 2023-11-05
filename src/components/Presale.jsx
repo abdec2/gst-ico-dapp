@@ -94,31 +94,48 @@ function Presale() {
         }
     }
 
+    let timeout;
+
+    const resetIcons = () => {
+        document.querySelector('#copyIcon').classList.remove('hidden')
+        document.querySelector('#successIcon').classList.add('hidden')
+        clearTimeout(timeout)
+    }
+
+    const copyToClipboard = () => {
+        navigator.clipboard.writeText(CONFIG.TOKEN_CONTRACT);
+        document.querySelector('#copyIcon').classList.add('hidden')
+        document.querySelector('#successIcon').classList.remove('hidden')
+        timeout = setTimeout(resetIcons, 1000)
+    }
+
 
     return (
-        <div className="my-11 p-7 flex items-center flex-col md:flex-row justify-between border border-white border-opacity-20 rounded-3xl shadow-xl ">
-            <div className="md:pl-8 text-center md:text-left md:mr-2">
+        <div className="my-11 p-7 flex items-center flex-col md:flex-row justify-between border border-white border-opacity-20 rounded-3xl shadow-xl md:space-x-10 ">
+            <div className="md:pl-8 text-center md:text-left md:mr-2 w-full md:w-1/2">
                 <h1 className="text-base sm:text-xl font-bold uppercase text-white" >Public Sale</h1>
                 <h1 className="text-2xl sm:text-4xl font-bold uppercase text-[#E1C260]" style={{textShadow: '0 0 16em #fff, 0 0 0.15em #E1C260, 0 0 1.2em #fff, 0 0 10em #E1C260'}}>Global Standard Token</h1>
-                <button className='mt-5 px-6 py-2 bg-[#E1C260] text-black rounded font-bold hover:bg-[#E1C260]' onClick={() => addToken()}>Add Token to your MetaMask</button>
-                {/* <div className='mt-3 hidden md:block'>
-                <p className="text-lg">For Progress, Investment & Success</p>
-            </div> */}
-                {/* <div className='mt-10 text-left'>
-                    <h3 className=' uppercase text-sm font-semibold mb-2 text-[#cb903f]'>Instructions:</h3>
-                    <ul className='text-sm list-outside list-disc'>
-                        <li className='ml-4'>Minimum purchase allowed: 0.01 BNB</li>
-                        <li className='ml-4'>Purchase amount should be multiple of minimum purchase</li>
-                    </ul>
-                </div> */}
+                <div className='mt-5'>
+                    <label htmlFor="">Token Address</label>
+                    <div className='flex items-center justify-between bg-[#E1C260] px-2 py-2 text-black rounded'>
+                        <p className='truncate'>{`${CONFIG.TOKEN_CONTRACT}`}</p>
+                        <button className='p-2 border border-black rounded transition-all duration-75 ease-in-out hover:scale-110 active:scale-75' onClick={copyToClipboard}>
+                            <span id="copyIcon">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
+                                    <path d="M384 336H192c-8.8 0-16-7.2-16-16V64c0-8.8 7.2-16 16-16l140.1 0L400 115.9V320c0 8.8-7.2 16-16 16zM192 384H384c35.3 0 64-28.7 64-64V115.9c0-12.7-5.1-24.9-14.1-33.9L366.1 14.1c-9-9-21.2-14.1-33.9-14.1H192c-35.3 0-64 28.7-64 64V320c0 35.3 28.7 64 64 64zM64 128c-35.3 0-64 28.7-64 64V448c0 35.3 28.7 64 64 64H256c35.3 0 64-28.7 64-64V416H272v32c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192c0-8.8 7.2-16 16-16H96V128H64z"/>
+                                </svg>
+                            </span>
+                            <span id="successIcon" className='hidden'>
+                                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
+                                    <path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/>
+                                </svg>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+
             </div>
-            <div className="my-10 border p-10 rounded-xl border-white border-opacity-30  ">
-                {/* {account && (
-                    <>
-                        <p className='text-sm text-white'>USDT Balance: {bnbBalance}</p>
-                        <p className='text-sm text-white'>Your FracInvest Balance: {tokenBalance} </p>
-                    </>
-                )} */}
+            <div className="my-10 border p-10 rounded-xl border-white border-opacity-30 w-full md:w-1/2">
                 <form onSubmit={approveUSDT}>
                     <div className="my-3">
                         <label className="text-base font-bold text-[#E1C260]">Amount USDC</label>
